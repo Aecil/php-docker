@@ -1,38 +1,11 @@
-FROM php:8.2-fpm-bullsyeye
+FROM php:8.2-fpm-bullseye
 
 ENV ACCEPT_EULA=Y
 
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    apt-transport-https \
-    gnupg2 \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libmcrypt-dev \
-    libicu-dev \
-    libpq-dev \
-    zip \
-    unzip 
-
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - && sudo apt-get install -y nodejs
-
-# Install PHP extensions zip, mbstring, exif, bcmath, intl
-RUN docker-php-ext-configure gd –with-freetype –with-jpeg 
-RUN docker-php-ext-install zip mbstring exif pcntl bcmath -j$(nproc) gd intl
-
-# Install the PHP pdo_pgsql extention
-RUN docker-php-ext-install pdo_pgsql
-
-# Install PHP Opcache extention
-RUN docker-php-ext-install opcache
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install prerequisites required for tools and extensions installed later on.
+RUN apt-get update \
+    && apt-get install -y apt-transport-https gnupg2 libpng-dev libzip-dev unzip \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install prerequisites for the sqlsrv and pdo_sqlsrv PHP extensions.
 # Some packages are pinned with lower priority to prevent build issues due to package conflicts.
