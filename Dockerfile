@@ -27,7 +27,13 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 # Install required PHP extensions and all their prerequisites available via apt.
 RUN chmod uga+x /usr/bin/install-php-extensions \
     && sync \
-    && install-php-extensions bcmath ds exif gd intl opcache pcntl pdo_sqlsrv redis sqlsrv zip
+    && install-php-extensions bcmath ds exif gd intl opcache pcntl pdo_sqlsrv pdo_pgsql memcached redis sqlsrv zip
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN npm i -g pnpm
 
 # Setting the work directory.
 WORKDIR /var/www/html
