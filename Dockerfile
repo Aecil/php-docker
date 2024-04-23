@@ -27,7 +27,7 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 # Install required PHP extensions and all their prerequisites available via apt.
 RUN chmod uga+x /usr/bin/install-php-extensions \
     && sync \
-    && install-php-extensions bcmath ds exif gd intl opcache pcntl pdo_sqlsrv pdo_pgsql pg_mysql memcached memcached redis sqlsrv zip
+    && install-php-extensions bcmath ds exif gd intl opcache pcntl pdo_sqlsrv pdo_pgsql pdo_mysql memcached memcached redis sqlsrv zip
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs
 
