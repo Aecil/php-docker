@@ -19,6 +19,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && echo "Package: odbcinst1debian2:amd64\nPin: origin \"packages.microsoft.com\"\nPin-Priority: 100\n" >> /etc/apt/preferences.d/microsoft \
     && apt-get update \
     && apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev \
+    && apt-get -y install wkhtmltopdf \
     && rm -rf /var/lib/apt/lists/*
 
 # Retrieve the script used to install PHP extensions from the source container.
